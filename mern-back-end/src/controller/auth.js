@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
 exports.signup = (req, res) => {
-  validationResult(req);
   User.findOne({ email: req.body.email }).exec((error, user) => {
     if (user)
       return res.status(400).json({
@@ -61,10 +60,4 @@ exports.signin = (req, res) => {
   });
 };
 
-exports.requireSignin = (req, res, next) => {
-  const token = req.headers.authorization.split(" ")[1];
-  const user = jwt.verify(token, process.env.JWT_SECRET);
-  req.user = user;
 
-  next();
-};

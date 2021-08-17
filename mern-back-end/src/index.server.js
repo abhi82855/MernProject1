@@ -1,12 +1,13 @@
 const express = require("express");
 const env = require("dotenv");
 const app = express();
-const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 //routes
 const userRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin/auth");
+const categoryRoutes = require("./routes/category");
+const bodyParser = require("body-parser");
 
 //enviroment variable
 env.config();
@@ -22,6 +23,7 @@ mongoose
     console.log("Database connected");
   });
 
+app.use(express.json());
 app.use(bodyParser());
 
 app.get("/", (req, res, next) => {
@@ -30,14 +32,9 @@ app.get("/", (req, res, next) => {
   });
 });
 
-// app.post("/data", (req, res, next) => {
-//   res.status(200).json({
-//     message: req.body,
-//   });
-// });
-
 app.use("/api", userRoutes);
 app.use("/api", adminRoutes);
+app.use("/api", categoryRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
