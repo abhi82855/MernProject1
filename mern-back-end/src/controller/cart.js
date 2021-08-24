@@ -7,6 +7,11 @@ exports.addItemToCart = (req, res) => {
       //Cart already exists then update
       //return res.status(400).json({ message: cart });
       //this query find existing and update
+
+      const isItemAdded = cart.cartItems.find(
+        (c) => c.product == req.body.cart.product
+      );
+
       Cart.findOneAndUpdate(
         { user: req.user._id },
         {
