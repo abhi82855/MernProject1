@@ -7,7 +7,7 @@ import { Link, NavLink } from "react-router-dom";
 const Header = () => {
   return (
     <div>
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
         <Container>
           {/* <Navbar.Brand href="#home">Admin Dashboard</Navbar.Brand> */}
           <Link to="/" className="navbar-brand">
