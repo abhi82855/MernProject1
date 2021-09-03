@@ -3,6 +3,7 @@ const env = require("dotenv");
 const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
+const cors = require("cors");
 
 //routes
 const userRoutes = require("./routes/auth");
@@ -35,6 +36,7 @@ app.get("/", (req, res, next) => {
   });
 });
 
+app.use(cors());
 app.use("/public", express.static(path.join(__dirname, "uploads")));
 app.use("/api", userRoutes);
 app.use("/api", adminRoutes);
