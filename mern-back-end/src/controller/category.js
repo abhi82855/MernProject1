@@ -5,7 +5,7 @@ function createCategories(categories, parentId = null) {
   const categoryList = [];
   let category;
 
-  if (parseInt == null) {
+  if (parentId == null) {
     category = categories.filter((cat) => cat.parentId == undefined);
   } else {
     category = categories.filter((cat) => cat.parentId == parentId);
@@ -16,6 +16,7 @@ function createCategories(categories, parentId = null) {
       _id: cate._id,
       name: cate.name,
       slug: cate.slug,
+      parentId: cate.parentId,
       children: createCategories(categories, cate._id),
     });
   }
