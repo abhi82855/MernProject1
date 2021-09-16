@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { requireSignin, adminMiddleware } = require("../common-middleware");
 const { getProducts, createProduct } = require("../controller/product");
+const {getProductsBySlug}=require("../controller/product")
 const multer = require("multer");
 const shortid = require("shortid");
 const path = require("path");
@@ -25,5 +26,6 @@ router.post(
 );
 
 router.get("/product/getproducts", getProducts);
+router.get("/products/:slug", getProductsBySlug); // add by nitish 
 
 module.exports = router;
