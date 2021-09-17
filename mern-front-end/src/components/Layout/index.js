@@ -1,13 +1,13 @@
 import React from 'react';
 import Header from '../Header'
-import { Signup } from '../Header';
+// import { Signup } from '../Header';
 import MenuHeader from '../MenuHeader'
 
 const Layout=(props) =>{
   return (
     <>
     <Header/>
-    <Signup/>
+    {/* <Signup/> */}
     <MenuHeader/>
     {props.children}
     </>
