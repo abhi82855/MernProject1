@@ -2,7 +2,7 @@ const router = require("express").Router();
 const shortid = require("shortid");
 const Product = require("../models/product");
 const slugify = require("slugify");
-const Category =require("../models/category");
+const Category = require("../models/category");
 
 exports.createProduct = (req, res) => {
   const { name, price, description, category, quantity, createdBy } = req.body;
@@ -91,72 +91,68 @@ exports.updateProduct = (req, res) => {
 };
 
 
-exports.getProductsBySlug=(req,res)=>{
-  const {slug}=req.params;
-  Category.findOne({slug:slug})
-  .select('_id')
-  .exec((error,category)=>{
-    if(error)
-    {
-      return res.status(404).json({error})
-    }
-    else
-    {
-      res.status(200).json({category})
-    }
-  })
-   
+exports.getProductsBySlug = (req, res) => {
+  const { slug } = req.params;
+  Category.findOne({ slug: slug })
+    .select('_id')
+    .exec((error, category) => {
+      if (error) {
+        return res.status(404).json({ error })
+      }
+      if (category) {
+        Product.find({ category: category._id })
+          .exec((error, products) => {
+
+            if (error) {
+              return res.status(404).json({ error })
+            }
+            if(products.length>0){
+
+              res.status(200).json({
+                products,
+                productsByPrice: {
+                  under5k: products.filter((product) => product.price <= 5000),
+                  under10k: products.filter((product) => product.price > 5000 && product.price <= 10000),
+                  under15k: products.filter((product) => product.price > 10000 && product.price <= 15000),
+                  under20k: products.filter((product) => product.price > 15000 && product.price <= 20000),
+                  under25k: products.filter((product) => product.price > 20000 && product.price <= 25000),
+                  under30k: products.filter((product) => product.price > 25000 && product.price <= 30000),
+                  under35k: products.filter((product) => product.price > 30000 && product.price <= 35000),
+                  under40k: products.filter((product) => product.price > 3500 && product.price <= 40000),
+                  under45k: products.filter((product) => product.price > 40000 && product.price <= 45000),
+                  under50k: products.filter((product) => product.price > 45000 && product.price <= 50000),
+                  under55k: products.filter((product) => product.price > 50000 && product.price <= 55000),
+                  under60k: products.filter((product) => product.price > 55000 && product.price <= 60000),
+                  under65k: products.filter((product) => product.price > 60000 && product.price <= 65000),
+                  under70k: products.filter((product) => product.price > 65000 && product.price <= 70000),
+                  under75k: products.filter((product) => product.price > 70000 && product.price <= 75000),
+                  under80k: products.filter((product) => product.price > 75000 && product.price <= 80000),
+                   
+                }
+              })
+              
+            }
+
+           
+
+          })
+      }
+
+    })
+
 }
 
 
-// add by nitish
-// exports.getProductsBySlug = (req, res) => {
-//   const { slug } = req.params;
-//   Category.findOne({ slug: slug })
-//     .select("_id type")
-//     .exec((error, category) => {
-//       if (error) {
-//         return res.status(400).json({ error });
-//       }
-
-//       if (category) {
-//         Product.find({ category: category._id }).exec((error, products) => {
-//           if (error) {
-//             return res.status(400).json({ error });
-//           }
-
-//           if (category.type) {
-//             if (products.length > 0) {
-//               res.status(200).json({
-//                 products,
-//                 priceRange: {
-//                   under5k: 5000,
-//                   under10k: 10000,
-//                   under15k: 15000,
-//                   under20k: 20000,
-//                   under30k: 30000,
-//                 },
-//                 productsByPrice: {
-//                   under5k: products.filter((product) => product.price <= 5000),
-//                   under10k: products.filter(
-//                     (product) => product.price > 5000 && product.price <= 10000
-//                   ),
-//                   under15k: products.filter(
-//                     (product) => product.price > 10000 && product.price <= 15000
-//                   ),
-//                   under20k: products.filter(
-//                     (product) => product.price > 15000 && product.price <= 20000
-//                   ),
-//                   under30k: products.filter(
-//                     (product) => product.price > 20000 && product.price <= 30000
-//                   ),
-//                 },
-//               });
-//             }
-//           } else {
-//             res.status(200).json({ products });
-//           }
-//         });
-//       }
-//     });
-// };
+exports.getProductDetailsById = (req, res) => {
+  const { productId } = req.params;
+  if (productId) {
+    Product.findOne({ _id: productId }).exec((error, product) => {
+      if (error) return res.status(400).json({ error });
+      if (product) {
+        res.status(200).json({ product });
+      }
+    });
+  } else {
+    return res.status(400).json({ error: "Params required" });
+  }
+};
