@@ -82,7 +82,7 @@
     font-size: 16px;
     cursor: pointer;
   }
-.more {
+.more , .fullName {
     font-weight: bold;
     color: #fff;
     display: flex;
@@ -121,8 +121,8 @@
   height: 100%;
   color: #fff;
   letter-spacing: 1px;
-  background-image: url('../../images/login-image.png');
-  background-color: #2874f0;
+  /* background-image: url('../../images/login-image.png'); */
+  background-color: #131921;
   background-repeat: no-repeat;
   background-position: center 85%;
   padding: 40px 33px;
